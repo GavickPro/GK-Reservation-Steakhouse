@@ -82,7 +82,7 @@ class GK_Reservation_Steakhouse {
            				$size_value = esc_attr($_POST['gk-reservation-size']);
            			}
 
-           			$output .= '<input type="text" name="gk-reservation-subject" class="gk-required" placeholder="'.__('Party Size*', 'gk-reservation-steakhouse').'" value="'.$size_value.'" />';
+           			$output .= '<input type="text" name="gk-reservation-size" class="gk-required" placeholder="'.__('Party Size*', 'gk-reservation-steakhouse').'" value="'.$size_value.'" />';
            		}
 
        		if(in_array('date', $fields) || in_array('time', $fields) || in_array('size', $fields)) {
