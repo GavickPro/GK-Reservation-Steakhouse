@@ -194,7 +194,7 @@ class GK_Reservation_Steakhouse {
 
             for($i = 0; $i < $fields_len; $i++) {
               if(isset($_POST['gk-reservation-' . $fields[$i]])) {
-                if(trim($_POST['gk-reservation-' . $fields[$i]]) === '') {
+                if($fields[$i] !== '' && trim($_POST['gk-reservation-' . $fields[$i]]) === '') {
                   $validated = false;
                 } else {
                   $output[$fields[$i]] = esc_attr(esc_html($_POST['gk-reservation-' . $fields[$i]]));
@@ -320,7 +320,7 @@ class GK_Reservation_Steakhouse {
 
                   echo '<div class="gk-reservation-success">'.__('Your reservation has been sucessfully sent.', 'gk-reservation-steakhouse').'</div>';
             } else {
-                  if($errors['recaptcha'] != '') {
+                  if(isset($errors) && $errors['recaptcha'] != '') {
                         echo '<div class="gk-reservation-error">'.__("The reCAPTCHA wasn't entered correctly. Go back and try it again.", 'gk-reservation-steakhouse').'</div>';
                   } else {
                         echo '<div class="gk-reservation-error">'.__('Please check the fields in the reservation form before sending.', 'gk-reservation-steakhouse').'</div>';
