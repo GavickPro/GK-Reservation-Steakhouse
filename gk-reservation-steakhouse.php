@@ -4,7 +4,7 @@
 Plugin Name:    GK Reservation Steakhouse
 Plugin URI:     
 Description:    Simple plugin for adding simple reservation form in the Steakhouse theme
-Version:        1.0.0
+Version:        1.0.1
 Author:         GavickPro
 Author URI:     http://www.gavick.com
  
