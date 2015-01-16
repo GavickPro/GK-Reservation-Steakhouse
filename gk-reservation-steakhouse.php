@@ -290,14 +290,14 @@ class GK_Reservation_Steakhouse {
                   $body .= "</html>";
                   
                   if($output['name'] !== '' && $output['email'] !== '') {
-                        $headers[] = 'From: '.$output['name'].' <'.$output['email'].'>';
+                        $headers[] = 'From: '.get_bloginfo().' <'.get_option( 'admin_email' ).'>';
                         $headers[] = 'Reply-To: ' . $output['email'];
                         $headers[] = 'Content-type: text/html';
                   } else if($output['name'] !== '' && $output['email'] === '') {
                         $headers[] = 'From: '.$output['name'];
                         $headers[] = 'Content-type: text/html';
                   } else if($output['name'] === '' && $output['email'] !== '') {
-                        $headers[] = 'From: '.$output['email'].' <'.$output['email'].'>';
+                        $headers[] = 'From: '.get_bloginfo().' <'.get_option( 'admin_email' ).'>';
                         $headers[] = 'Reply-To: ' . $output['email'];
                         $headers[] = 'Content-type: text/html';
                   } else {
