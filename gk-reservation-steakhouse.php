@@ -14,7 +14,7 @@ Domain Path:   /languages/
 
 global $pagenow;
 
-if(!function_exists('_recaptcha_qsencode')) {
+if (!class_exists('ReCaptcha') && !function_exists('_recaptcha_qsencode')) {
       include_once('recaptchalib.php');
 }
 
@@ -142,8 +142,9 @@ class GK_Reservation_Steakhouse {
                     get_option('gk_reservation_steakhouse_recaptcha_public_key', '') != '' &&
                     get_option('gk_reservation_steakhouse_recaptcha_private_key', '') != ''
               ) {
+                    wp_enqueue_script( 'gk-captcha-script', 'https://www.google.com/recaptcha/api.js', array( 'jquery' ), false, false);
                     $publickey = get_option('gk_reservation_steakhouse_recaptcha_public_key', '');
-                    $output .= recaptcha_get_html($publickey);
+                    $output .= '<div class="g-recaptcha" data-sitekey="'.$publickey.'"></div>';
               }
 
               $output .= '<input type="submit" class="gk-submit button button-border" value="'.__('Make reservation', 'gk-reservation-steakhouse').'" />';
@@ -173,6 +174,12 @@ class GK_Reservation_Steakhouse {
 
             // flag used to detect if the page is validated
             $validated = true;
+            $resp = null;
+            $errors = array(
+              "recaptcha" => ''
+            );
+            $publickey = get_option('gk_reservation_steakhouse_recaptcha_public_key', '');
+            $privatekey = get_option('gk_reservation_steakhouse_recaptcha_private_key', '');
 
             // flag to detect if e-mail was sent
             $message_sent = false;
@@ -201,23 +208,24 @@ class GK_Reservation_Steakhouse {
                 }
               }
             }
-        
+
             // reCAPTCHA validation
             if(
-                  isset($_POST["recaptcha_challenge_field"]) &&
-                  get_option('gk_reservation_steakhouse_recaptcha_public_key', '') != '' &&
-                  get_option('gk_reservation_steakhouse_recaptcha_private_key', '') != ''
+              isset($_POST['g-recaptcha-response']) &&
+              $publickey != '' &&
+              $privatekey != ''
             ) {
-                  $privatekey = get_option('gk_reservation_steakhouse_recaptcha_private_key', '');
-                  $resp = recaptcha_check_answer ($privatekey,
-                                                  $_SERVER["REMOTE_ADDR"],
-                                                  $_POST["recaptcha_challenge_field"],
-                                                  $_POST["recaptcha_response_field"]);
-                  
-                  if (!$resp->is_valid) {
-                        // What happens when the CAPTCHA was entered incorrectly
-                        $validated = false;
-                  }
+              $reCaptcha = new ReCaptcha($privatekey);
+              $resp = $reCaptcha->verifyResponse(
+                          $_SERVER["REMOTE_ADDR"],
+                          $_POST["g-recaptcha-response"]
+                      );
+              if ($resp != null && $resp->success ) {
+                    $validated = true;
+              } else {
+                    $validated = false;
+                    $errors['recaptcha'] = __("The reCAPTCHA wasn't entered correctly. Go back and try it again.", 'gk-reservation-steakhouse');    
+              }
             }
 
             // if the all fields was correct
