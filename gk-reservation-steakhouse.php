@@ -196,7 +196,7 @@ class GK_Reservation_Steakhouse {
             );
 
             // check the fields
-            $fields = array('date', 'time', 'size', 'name', 'email', 'phone', 'special');
+            $fields = array('date', 'time', 'size', 'name', 'email', 'phone');
             $fields_len = count($fields);
 
             for($i = 0; $i < $fields_len; $i++) {
