@@ -62,7 +62,7 @@ class GK_Reservation_Steakhouse {
            				$date_value = esc_attr($_POST['gk-reservation-date']);
            			}
 
-           			$output .= '<div class="gk-reservation-date"><input type="text" name="gk-reservation-date" class="auto-kal gk-required" data-kal="direction: \'today-future\'" placeholder="'.__('Date', 'gk-reservation-steakhouse').'" value="'.$date_value.'" /></div>';
+           			$output .= '<div class="gk-reservation-date"><input id="auto-cal" type="text" name="gk-reservation-date" class="gk-required" placeholder="'.__('Date', 'gk-reservation-steakhouse').'" value="'.$date_value.'" /></div>';
            		}
 
            		if(in_array('time', $fields)) {
