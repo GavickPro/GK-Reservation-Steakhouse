@@ -205,9 +205,13 @@ class GK_Reservation_Steakhouse {
                   $validated = false;
                 } else {
                   $output[$fields[$i]] = esc_attr(esc_html($_POST['gk-reservation-' . $fields[$i]]));
+                  if( trim($_POST['gk-reservation-special']) !== '') {
+                    $output['special'] = esc_attr(esc_html($_POST['gk-reservation-special']));
+                  }
                 }
               }
             }
+
 
             // reCAPTCHA validation
             if(
